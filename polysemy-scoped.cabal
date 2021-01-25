@@ -1,0 +1,40 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: bd5e68e1603205b4ad4ccd08b68ff4621c2310994e324e06235f73833f49490e
+
+name:           polysemy-scoped
+version:        0.0.0.1
+description:    Please see the README on GitHub at <https://github.com/polysemy-research/polysemy-scoped#readme>
+homepage:       https://github.com/polysemy-research/polysemy-scoped#readme
+bug-reports:    https://github.com/polysemy-research/polysemy-scoped/issues
+author:         Georgi Lyubenov
+maintainer:     godzbanebane@gmail.com
+copyright:      2021 Georgi Lyubenov
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/polysemy-research/polysemy-scoped
+
+library
+  exposed-modules:
+      Polysemy.Scoped
+      Polysemy.Scoped.Internal
+  other-modules:
+      Paths_polysemy_scoped
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -fplugin=Polysemy.Plugin
+  build-depends:
+      base >=4.7 && <5
+    , polysemy
+    , polysemy-plugin
+  default-language: Haskell2010

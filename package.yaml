@@ -1,0 +1,23 @@
+name:                polysemy-scoped
+version:             0.0.0.1
+github:              "polysemy-research/polysemy-scoped"
+license:             BSD3
+author:              "Georgi Lyubenov"
+maintainer:          "godzbanebane@gmail.com"
+copyright:           "2021 Georgi Lyubenov"
+
+extra-source-files:
+- README.md
+
+description:         Please see the README on GitHub at <https://github.com/polysemy-research/polysemy-scoped#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- polysemy
+- polysemy-plugin
+
+library:
+  source-dirs: src
+  ghc-options:
+  - -Wall
+  - -fplugin=Polysemy.Plugin
