@@ -34,7 +34,7 @@ scoped main = send $ InScope @tok @eff $ \token -> transform @eff (Run token) ma
 
 runScoped ::
   forall tok eff r a.
-  (forall f b. (tok -> Sem r (f b)) -> Sem r (f b)) ->
+  (forall b. (tok -> Sem r b) -> Sem r b) ->
   (tok -> InterpreterFor eff r) ->
   Sem (Scoped tok eff ': r) a ->
   Sem r a
