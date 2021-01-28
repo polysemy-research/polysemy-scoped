@@ -16,7 +16,6 @@ where
 import Polysemy (InterpreterFor, Member, Sem, raise, transform)
 import Polysemy.Internal (Sem (Sem, runSem), liftSem, send)
 import Polysemy.Internal.Union (Weaving (Weaving), decomp, hoist, injWeaving)
-import Polysemy.Resource (Resource, bracket)
 
 data Scoped tok eff m a where
   Run :: tok -> eff m a -> Scoped tok eff m a
@@ -35,17 +34,15 @@ scoped main = send $ InScope @tok @eff $ \token -> transform @eff (Run token) ma
 
 runScoped ::
   forall tok eff r a.
-  Member Resource r =>
+  (forall f b. (tok -> Sem r (f b)) -> Sem r (f b)) ->
   (tok -> InterpreterFor eff r) ->
-  Sem r tok ->
-  (tok -> Sem r ()) ->
   Sem (Scoped tok eff ': r) a ->
   Sem r a
-runScoped runner acquire release =
+runScoped scope runner =
   let go :: forall x. Sem (Scoped tok eff ': r) x -> Sem r x
       go = interpretH' $ \(Weaving eff s wv ex ins) -> case eff of
         Run token act -> runner token (liftSem $ injWeaving $ Weaving act s (raise . go . wv) ex ins)
         InScope main -> do
           let main' token = go $ wv $ main token <$ s
-          ex <$> bracket acquire release main'
+          ex <$> scope main'
    in go
